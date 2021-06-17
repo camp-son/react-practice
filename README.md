@@ -174,3 +174,27 @@ export default function Component() {
 	);
 }
 ```
+
+### useEffect
+
+- 컴포넌트가 mount, unmount, update 될 때 특정 작업을 수행하기 위해 사용합니다.
+- `useEffect`의 첫번째 인자로 들어가는 함수는 mount 될 때 실행되고, 그 함수가 반환하는 값은 `cleanup 함수`로 unmount 될 때 실행됩니다.
+- 두번째 인자로는 의존성을 갖는 변수들을 배열로 전달합니다.
+  - `useEffect(() => {}, [])` : 컴포넌트가 처음으로 mount, unmount 될 때에만 실행됩니다.
+  - `useEffect(() => {}, [...rest])` : `...rest`에 들어가는 의존성을 갖는 값들이 변경될 때 `update(unmount -> mount)`가 발생합니다.
+  - `useEffect(() => {})` : 컴포넌트가 변경될 때마다 계속 실행됩니다. 부모가 변경되면 자식은 항상 리렌더링 되기 때문에 잦게 실행됩니다.(리액트 내부에서 잦게 동작하고, DOM은 해당 DOM만 변경된다.)
+
+```jsx
+import { useEffect } from "react";
+
+export default function Component({ name }) {
+  useEffect(() => {
+    console.log("컴포넌트가 mount");
+
+    return () => {
+      console.log("컴포넌트가 unmount");
+    };
+  }, []);
+  return <div>{name}</div>;
+}
+```
