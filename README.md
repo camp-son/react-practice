@@ -96,3 +96,37 @@ export default function Component() {
 ```
 
 - 여러개의 값을 하나의 컴포넌트에서 관리할 때에는 `useState`의 인자값을 Object 형태로 넣어줄 수 있다.
+
+```jsx
+import { useState } from "react";
+export default function Component() {
+  const [people, setPeople] = useState({
+    name: "",
+    nickname: "",
+  });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+
+    setPeople((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const onReset = () => {
+    setPeople({
+      name: "",
+      nickname: "",
+    });
+  };
+
+  return (
+    <div>
+      <input name="name" value={name} onChange={onChange} />
+      <input name="nickname" value={nickname} onChange={onChange} />
+      <button onClick={onReset}>초기화</button>
+    </div>
+  );
+}
+```
