@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# React foundation tutorial
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> 벨로퍼트님의 (벨로퍼트와 함께하는 모던 리액트)[https://react.vlpt.us/]로 학습한 내용을 정리하였습니다.
 
-## Available Scripts
+## 함수형 컴포넌트
 
-In the project directory, you can run:
+### 기본 형태
 
-### `yarn start`
+- Javascript의 함수를 기반으로 컴포넌트를 선언할 수 있다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```jsx
+export default function Component(props) {
+	// ...
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+	return (
+		// ...
+	);
+}
 
-### `yarn test`
+Component.defaultProps = {
+	// ...
+};
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### JSX
 
-### `yarn build`
+- XML 형태로 템플릿 코드를 작성하면 Babel이 Javascript 코드로 변환시켜 준다.
+- XML 형태를 유지해주어야 하기 때문에 항상 태그는 닫히는 태그가 항상 있어야 한다.
+- 태그는 항상 root 태그가 있어야 한다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```jsx
+export default function Component() {
+  return (
+    <div>
+      <h1></h1>
+      <input />
+      <hr />
+      <br />
+      <p></p>
+    </div>
+  );
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Fragment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- JSX에서는 항상 root 태그가 있어야 하는데, root 태그가 불필요한 경우 Fragment `<></>`를 사용할 수 있다.
+- 본 명칭은 React.Fragment이지만 축약형으로 사용할 수 있다.
 
-### `yarn eject`
+```jsx
+export default function Component() {
+  /**
+   * 실제 돔에는 h1과 div만 노출된다.
+   */
+  return (
+    <>
+      <h1></h1>
+      <div></div>
+    </>
+  );
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Props
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- 함수의 인자로 `props`가 넘어오고, 컴포넌트의 사용처에서 속성으로 값을 전달해주는 것이다.
+- `props.children` 속성은 사용처에서 컴포넌트 태그 안에 있는 정보를 담고 있다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```jsx
+export default function Component({ children, ...props }) {
+  return <div style={{ color: props.color }}>{children}</div>;
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### useState
 
-## Learn More
+- 컴포넌트에서 상태를 관리할 수 있도록 react에서 제공하는 함수이다.
+- 인자로 초기값을 받으며, 반환되는 값은 배열로 초기값을 담는 변수와 초기값의 setter이다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```jsx
+import { useState } from "react";
+export default function Component() {
+  const [num, setNum] = useState(0 /* 초기값 */);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  const onIncrease = () => {
+    // setNum(num + 1);
+    setNum((prev) => prev + 1);
+  };
 
-### Code Splitting
+  return (
+    <div>
+      <button onClick={onIncrease}>Increase</button>
+    </div>
+  );
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 여러개의 값을 하나의 컴포넌트에서 관리할 때에는 `useState`의 인자값을 Object 형태로 넣어줄 수 있다.
