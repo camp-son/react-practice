@@ -153,3 +153,24 @@ export default function Component() {
   return <input ref={nameInput} onChange={onChange} />;
 }
 ```
+
+### Array
+
+- 배열을 사용할 때엔 `map`과 같이 Array에서 제공하는 함수를 이용하여 배열을 템플릿 목록으로 치환하여 사용합니다.
+- `key`값은 각 항목의 고유키로 값을 설정해주어야 React가 효율적으로 업데이트 할 수 있습니다.
+
+```jsx
+export default function Component() {
+	const seats = {
+		{id: 1, name: 'VIP'},
+		{id: 2, name: 'NORMAL'},
+		{id: 3, name: 'FAMILY'}
+	};
+
+	return (
+		<div>
+			{seats.map((seat) => <div key={seat.id}>{seat.name}</div>)}
+		</div>
+	);
+}
+```
