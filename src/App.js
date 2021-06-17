@@ -1,11 +1,16 @@
 import './App.css';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useMemo, useCallback} from 'react';
 import Hello from './00.Hello';
 import Wrapper from './01.Wrapper';
 import Counter from './02.Counter';
 import InputSample from './03.InputSample';
 import UserList from './04.UserList';
 import CreateUser from './05.CreateUser';
+
+function countActiveUsers(users) {
+	console.log('활성 사용자 수 체킹');
+	return users.filter(({active}) => active).length;
+}
 
 function App() {
 	const name = 'camp-son';
@@ -38,6 +43,14 @@ function App() {
 		}
 	]);
 
+	const count = useMemo(() => countActiveUsers(users), [users]);
+
+	// const list = [1,2,3,4,5];
+	// const test = useMemo(() => {
+	// 	console.log('계산...')
+	// 	return list.length;
+	// }, [users, list]);
+
 	const nextId = useRef(4);
 
 	const [user, setUser] = useState({
@@ -47,7 +60,7 @@ function App() {
 
 	const {username, email} = user;
 
-	const onCreate = () => {
+	const onCreate = useCallback(() => {
 		const user = {
 			id: nextId.current,
 			username,
@@ -61,24 +74,24 @@ function App() {
 			email: ''
 		})
 		nextId.current++;
-	};
+	}, [users, username, email]);
 
-	const onRemove = (userId) => {
+	const onRemove = useCallback((userId) => {
 		setUsers(users => users.filter(({id}) => id !== userId));
-	};
+	}, [users]);
 
-	const onToggle = (userId) => {
+	const onToggle = useCallback((userId) => {
 		setUsers(users => users.map((user) => (user.id === userId ? {...user, active: !user.active} : user)))
-	}
+	}, [users]);
 
-	const onChange = (e) => {
+	const onChange = useCallback((e) => {
 		const {name, value} = e.target;
 
 		setUser(prev => ({
 			...prev,
 			[name]: value
 		}));
-	}
+	}, [user]);
 
 	return (
 		// Fragment 
@@ -92,6 +105,7 @@ function App() {
 			<Wrapper>
 				<CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/>
 				<UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
+				<div>활성화 된 사용자: {count}</div>
 			</Wrapper>
 			<Wrapper>
 				{/* 이건 주석이야! */}

@@ -72,6 +72,29 @@ export default function Component({ children, ...props }) {
 }
 ```
 
+### Array
+
+- 배열을 사용할 때엔 `map`과 같이 Array에서 제공하는 함수를 이용하여 배열을 템플릿 목록으로 치환하여 사용합니다.
+- `key`값은 각 항목의 고유키로 값을 설정해주어야 React가 효율적으로 업데이트 할 수 있습니다.
+
+```jsx
+export default function Component() {
+	const seats = {
+		{id: 1, name: 'VIP'},
+		{id: 2, name: 'NORMAL'},
+		{id: 3, name: 'FAMILY'}
+	};
+
+	return (
+		<div>
+			{seats.map((seat) => <div key={seat.id}>{seat.name}</div>)}
+		</div>
+	);
+}
+```
+
+## Hooks
+
 ### useState
 
 - 컴포넌트에서 상태를 관리할 수 있도록 react에서 제공하는 함수이다.
@@ -154,27 +177,6 @@ export default function Component() {
 }
 ```
 
-### Array
-
-- 배열을 사용할 때엔 `map`과 같이 Array에서 제공하는 함수를 이용하여 배열을 템플릿 목록으로 치환하여 사용합니다.
-- `key`값은 각 항목의 고유키로 값을 설정해주어야 React가 효율적으로 업데이트 할 수 있습니다.
-
-```jsx
-export default function Component() {
-	const seats = {
-		{id: 1, name: 'VIP'},
-		{id: 2, name: 'NORMAL'},
-		{id: 3, name: 'FAMILY'}
-	};
-
-	return (
-		<div>
-			{seats.map((seat) => <div key={seat.id}>{seat.name}</div>)}
-		</div>
-	);
-}
-```
-
 ### useEffect
 
 - 컴포넌트가 mount, unmount, update 될 때 특정 작업을 수행하기 위해 사용합니다.
@@ -196,5 +198,42 @@ export default function Component({ name }) {
     };
   }, []);
   return <div>{name}</div>;
+}
+```
+
+### useMemo
+
+- 컴포넌트가 리렌더링 될 때마다 계속 계산하는 것을 방지할 수 있고, 지정한 값이 변경될 때에만 재연산을 할 수 있도록 합니다.
+- 첫번째 인자로 값을 연산하여 반환하는 함수를 작성하고, 두번째 인자는 의존성을 갖는 변수들의 배열로 전달합니다.
+- 두번째 인자가 없는 경우, 컴포넌트가 리렌더링 될 때마다 재연산을 하게 되어 성능 측면에서 불리해 질 수 있습니다.
+- 두번째 인자에 일반 변수가 있으면 컴포넌트가 리렌더링될 때마다 재연산이 발생된다.
+
+```jsx
+import { useState, useMemo } from "react";
+
+export default function Component() {
+  const [numbers, setNumbers] = useState([1, 2, 3, 4]);
+  const count = useMemo(() => numbers.length, [numbers]);
+
+  return <div>{count}</div>;
+}
+```
+
+### useCallback
+
+- 컴포넌트가 리렌더링 될 때마다 내부에서 선언한 함수들은 새로 만들어지는데 이를 방지할 수 있도록 합니다.
+- 첫번째 인자로 값을 함수의 본문을 넣어줍니다. 두번째 인자는 의존성을 갖는 변수들의 배열로 전달합니다.
+
+```jsx
+import { useState, useCallback } from "react";
+
+export default function Component() {
+  const [numbers, setNumbers] = useState([1, 2, 3, 4]);
+
+  const onClick = useCallback(() => {
+    // 함수 실행 내용
+  }, [numbers]);
+
+  return <button onClick={onClick}>Click!</button>;
 }
 ```
