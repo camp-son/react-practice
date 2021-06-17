@@ -130,3 +130,26 @@ export default function Component() {
   );
 }
 ```
+
+### useRef
+
+- 기존에 DOM을 접근할 때에는 DOM API에서 제공하는 getElementById, querySeletor 등을 사용하였습니다.
+- React에서는 `useRef`로 참조값을 생성하고, 그 참조값을 DOM의 `ref` 속성에 매핑시켜줄 수 있다.
+- 생성된 변수의 `current` 속성에 참조시킨 DOM을 접근할 수 있다.
+
+```jsx
+import { useRef } from "react";
+export default function Component() {
+  // ...
+  const nameInput = useRef();
+  // ...
+
+  const onChange = () => {
+    nameInput.blur();
+  };
+
+  // ...
+
+  return <input ref={nameInput} onChange={onChange} />;
+}
+```
