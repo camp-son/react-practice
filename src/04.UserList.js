@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-function User({user, onRemove, onToggle}) {
+
+const User = React.memo(({user, onRemove, onToggle}) => {
 	useEffect(() => {
 		console.log('화면에 나타남');
 		return () => {
@@ -24,12 +25,14 @@ function User({user, onRemove, onToggle}) {
 			<button onClick={() => onRemove(user.id)}>삭제</button>
 		</div>
 	);
-}
+});
 
-export default function UserList({users, onRemove, onToggle}) {
+function UserList({users, onRemove, onToggle}) {
 	return (
 		<div>
 			{users.map(user => <User user={user} key={user.id} onRemove={onRemove} onToggle={onToggle}/>)}
 		</div>
 	);
 }
+
+export default React.memo(UserList);

@@ -237,3 +237,21 @@ export default function Component() {
   return <button onClick={onClick}>Click!</button>;
 }
 ```
+
+## 성능 최적화
+
+### React.memo
+
+- 컴포넌트의 props 변화에만 영향을 줍니다.
+- 상위에서 useState의 setter를 이용하여 데이터를 업데이트 하면 감싸진 컴포넌트는 변화를 감지하여 렌더링하게 됩니다. 그러므로 Hooks에 의존성을 명시하지 않아도 동일하게 동작하게 됩니다.
+- 단, 렌더링을 방지하기 위하여 사용하면 안됩니다. 버그를 초래할 수 있습니다.
+
+```jsx
+import React from "react";
+
+function Component({ name, onClick }) {
+  return <button onClick={onClick}>{name}</button>;
+}
+
+export default React.memo(Component);
+```

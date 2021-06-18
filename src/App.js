@@ -74,15 +74,15 @@ function App() {
 			email: ''
 		})
 		nextId.current++;
-	}, [users, username, email]);
+	}, [/* users,  */username, email]);
 
 	const onRemove = useCallback((userId) => {
 		setUsers(users => users.filter(({id}) => id !== userId));
-	}, [users]);
+	}, [/* users */]);
 
 	const onToggle = useCallback((userId) => {
 		setUsers(users => users.map((user) => (user.id === userId ? {...user, active: !user.active} : user)))
-	}, [users]);
+	}, [/* users */]);
 
 	const onChange = useCallback((e) => {
 		const {name, value} = e.target;
