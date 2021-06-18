@@ -1,11 +1,11 @@
 import './App.css';
 import React, {useState, useRef, useMemo, useCallback} from 'react';
-import Hello from './00.Hello';
-import Wrapper from './01.Wrapper';
-import Counter from './02.Counter';
-import InputSample from './03.InputSample';
-import UserList from './04.UserList';
-import CreateUser from './05.CreateUser';
+import Hello from './components/00.Hello';
+import Wrapper from './components/01.Wrapper';
+import Counter from './components/02.Counter';
+import InputSample from './components/03.InputSample';
+import UserList from './components/04.UserList';
+import CreateUser from './components/05.CreateUser';
 
 function countActiveUsers(users) {
 	console.log('활성 사용자 수 체킹');
