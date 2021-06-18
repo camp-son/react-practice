@@ -2,6 +2,7 @@ import './App.css';
 import React, {useCallback, useMemo, useReducer, useRef} from 'react';
 import UserList from './components/04.UserList';
 import CreateUser from './components/05.CreateUser';
+import useInputs from './hooks/useInputs';
 
 function countActiveUsers(users) {
 	console.log('활성 사용자 수 체킹');
@@ -16,10 +17,10 @@ const EVENT_NAME = {
 };
 
 const initializeState = {
-	user: {
-		username: '',
-		email: ''
-	},
+	// user: {
+	// 	username: '',
+	// 	email: ''
+	// },
 	users: [
 		{
 			id: 1,
@@ -44,22 +45,22 @@ const initializeState = {
 
 function reducer(state, action) {
 	switch(action.event) {
-		case EVENT_NAME.ON_CHANGE:
-			return {
-				...state,
-				user: {
-					...state.user,
-					[action.name]: action.value
-				}
-			};
+		// case EVENT_NAME.ON_CHANGE:
+		// 	return {
+		// 		...state,
+		// 		user: {
+		// 			...state.user,
+		// 			[action.name]: action.value
+		// 		}
+		// 	};
 		case EVENT_NAME.ON_CREATE:
 			return {
 				...state,
-				users: state.users.concat(action.user),
-				user: {
-					username: '',
-					email: ''
-				}
+				users: state.users.concat(action.user)
+				// user: {
+				// 	username: '',
+				// 	email: ''
+				// }
 			};
 		case EVENT_NAME.ON_REMOVE:
 			return {
@@ -77,19 +78,24 @@ function reducer(state, action) {
 };
 
 function App() {
+	const [{username, email}, onChange, reset] = useInputs({
+		username: '',
+		email: ''
+	});
 	const [state, dispatch] = useReducer(reducer, initializeState);
-	const {users, user: {username, email}} = state;
+	// const {users, user: {username, email}} = state;
+	const {users} = state;
 	const nextId = useRef(4);
 	const count = useMemo(() => countActiveUsers(users), [users]);
 
-	const onChange = useCallback((e) => {
-		const {name, value} = e.target;
-		dispatch({
-			event: EVENT_NAME.ON_CHANGE,
-			name,
-			value
-		});
-	}, []);
+	// const onChange = useCallback((e) => {
+	// 	const {name, value} = e.target;
+	// 	dispatch({
+	// 		event: EVENT_NAME.ON_CHANGE,
+	// 		name,
+	// 		value
+	// 	});
+	// }, []);
 
 	const onCreate = useCallback(() => {
 		dispatch({
@@ -97,9 +103,11 @@ function App() {
 			user: {
 				id: nextId.current,
 				username,
-				email
+				email,
+				active: false
 			}
 		});
+		reset();
 		nextId.current++;
 	}, [username, email]);
 
