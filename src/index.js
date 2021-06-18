@@ -3,10 +3,39 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Wrapper from './components/01.Wrapper';
 
 ReactDOM.render(
   	<React.StrictMode>
-    	<App />
+		<Wrapper>
+			<App />
+		</Wrapper>
+		{/* <Wrapper>
+			<Counter />
+		</Wrapper> */}
+		{/* <Wrapper>
+			<InputSample />
+		</Wrapper> */}
+		{/* <Wrapper>
+			<Hello 
+				name="camp-son"
+				color="gray"
+			/>
+			<Hello 
+				name="YJLee"
+				color="purple"
+				isRequired
+			/>
+
+			<Hello />
+
+			<input/>
+			<br/>
+
+			<div style={style}>{name}</div>
+			<div className="gray-box"></div>
+			{divTag}
+		</Wrapper> */}
   	</React.StrictMode>,
   	document.getElementById('root')
 );
