@@ -331,3 +331,55 @@ const nextState = produce(state, (draft) => {
 
 console.log(nextState); // {username: 'camp-son', active: true}
 ```
+
+## 클래스 컴포넌트 기본 형태
+
+- Javascript class처럼 만들어 사용할 수 있다.
+
+```jsx
+import { Component } from "react";
+
+class Component {
+  render() {
+    return <div>{/* elements... */}</div>;
+  }
+}
+
+export default Component;
+```
+
+- 컴포넌트가 생성될 때 인자로 props를 전달 받으며, `this.props`로 사용할 수 있다.
+- 상태는 `this.state`를 통해 읽어올 수 있고, 설정을 하기 위해선 `this.setState` 함수를 사용하여야 합니다.
+- setState 함수에 값을 바로 업데이트하는 방법과 콜백함수를 통해 이전 값을 받아 업데이트할 수 있습니다.
+- 이벤트를 연결해줄 때엔 현재 인스턴스를 바인딩 해주어야 합니다.
+
+```jsx
+import { Component } from "react";
+
+class Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0,
+    };
+  }
+
+  onClick() {
+    // this.setState({
+    //   count: this.state.count + 1
+    // });
+    this.setState((state) => ({
+      count: state.count + 1,
+    }));
+  }
+
+  render() {
+    const { color } = this.props;
+    return (
+      <button style={{ color }} onClick={this.onClick.bind(this)}></button>
+    );
+  }
+}
+
+export default Component;
+```

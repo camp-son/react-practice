@@ -1,7 +1,6 @@
-import React, {useReducer} from "react";
+import React, {Component, useReducer} from "react";
 
 function reducer(state, action) {
-	console.log(state, action);
 	switch(action.type) {
 		case 'INCREASE':
 			return state + 1;
@@ -12,39 +11,62 @@ function reducer(state, action) {
 	}
 }
 
-function Counter() {
-	const [num, dispatch] = useReducer(reducer, 0);
-	const onIncrease = () => {
-		dispatch({type: 'INCREASE'});
-	};
-	const onDecrease = () => {
-		dispatch({type: 'DECREASE'});
-	};
-	return (
-		<>
-			<h1>{num}</h1>
-			<button onClick={onIncrease}>+1</button>
-			<button onClick={onDecrease}>-1</button>
-		</>
-	);
-}
-
-// useState
 // function Counter() {
-// 	const [num, setNumber] = useState(0);
+// 	const [num, dispatch] = useReducer(reducer, 0);
 // 	const onIncrease = () => {
-// 		setNumber(prev => prev + 1);
+// 		dispatch({type: 'INCREASE'});
 // 	};
 // 	const onDecrease = () => {
-// 		setNumber(prev => prev - 1);
+// 		dispatch({type: 'DECREASE'});
 // 	};
 // 	return (
-// 		<div>
+// 		<>
 // 			<h1>{num}</h1>
 // 			<button onClick={onIncrease}>+1</button>
 // 			<button onClick={onDecrease}>-1</button>
-// 		</div>
+// 		</>
 // 	);
 // }
+
+class Counter extends Component {
+	state = {
+		counter: 0,
+		fixed: 1
+	};
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		counter: 0
+	// 	};
+	// }
+
+	// onClickIncrease = () => {};
+	onClickIncrease() {
+		// 바로 반영되지 않는다. 2가 증가하지 않는다.
+		this.setState({
+			counter: this.state.counter + 1
+		});
+		this.setState({
+			counter: this.state.counter + 1
+		});
+	}
+
+	// onClickDecrease = () => {};
+	onClickDecrease() {
+		this.setState({
+			counter: this.state.counter - 1
+		});
+	}
+	render() {
+		return (
+			<>
+				<h1>{this.state.counter}</h1>
+				<button onClick={this.onClickIncrease.bind(this)}>+1</button>
+				<button onClick={this.onClickDecrease.bind(this)}>-1</button>
+				고정된 값 : {this.state.fixed}
+			</>
+		)
+	}
+}
 
 export default Counter;

@@ -4,15 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Wrapper from './components/01.Wrapper';
+import Counter from './components/02.Counter';
 
 ReactDOM.render(
   	<React.StrictMode>
 		<Wrapper>
 			<App />
 		</Wrapper>
-		{/* <Wrapper>
+		{/* <Hello /> */}
+		<Wrapper>
 			<Counter />
-		</Wrapper> */}
+		</Wrapper>
 		{/* <Wrapper>
 			<InputSample />
 		</Wrapper> */}
