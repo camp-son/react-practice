@@ -312,3 +312,22 @@ function AnyComponent() {
 
 export default AnyComponent;
 ```
+
+## Immer
+
+- Immer는 객체의 불변성을 유지할 수 있게 도와주는 라이브러리입니다.
+- 복잡한 상태 관리 코드를 간결하게 정리할 수 있는 장점이 있지만, 간단한 코드에는 오히려 더 복잡해질 수 있습니다.
+- useState의 함수형 업데이트와 같이 사용할 수 있습니다.
+
+```jsx
+const state = {
+  username: "camp-son",
+  active: false,
+};
+
+const nextState = produce(state, (draft) => {
+  draft.active = !draft.active;
+});
+
+console.log(nextState); // {username: 'camp-son', active: true}
+```

@@ -2,6 +2,7 @@ import './App.css';
 import React, {useMemo, useReducer} from 'react';
 import UserList from './components/04.UserList';
 import CreateUser from './components/05.CreateUser';
+import produce from 'immer';
 
 function countActiveUsers(users) {
 	console.log('활성 사용자 수 체킹');
@@ -41,20 +42,19 @@ const initializeState = {
 const reducer = (state, action) => {
 	switch(action.event) {
 		case EVENT_NAME.ON_CREATE:
-			return {
-				...state,
-				users: state.users.concat(action.user)
-			};
+			return produce(state, ({users}) => {
+				users.push(action.user);
+			});
 		case EVENT_NAME.ON_REMOVE:
-			return {
-				...state,
-				users: state.users.filter(({id}) => id !== action.id)
-			};
+			return produce(state, ({users}) => {
+				const removeIdx = users.findIndex(({id}) => id === action.id);
+				users.splice(removeIdx, 1);
+			});
 		case EVENT_NAME.ON_TOGGLE:
-			return {
-				...state,
-				users: state.users.map((user) => user.id === action.id ? {...user, active: !user.active} : user)
-			}
+			return produce(state, ({users}) => {
+				const user = users.find(({id}) => id === action.id);
+				user.active = !user.active;
+			});
 		default:
 			return state;
 	}
