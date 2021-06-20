@@ -383,3 +383,24 @@ class Component {
 
 export default Component;
 ```
+
+## 클래스 컴포넌트 생명주기
+
+### 마운트
+
+- `constructor` 컴포넌트가 생성될 때 호출됩니다.
+- `static getDerivedStateFromProps` props나 state가 변경되면 동작됩니다.
+- `render` 렌더링 할 템플릿을 반환합니다.
+- `componentDidMount` 첫 렌더링이 완료된 이후 호출됩니다.
+
+### 업데이트
+
+- `static getDerivedStateFromProps` props나 state가 변경되면 동작됩니다.
+- `shouldComponentUpdate`
+- `render` 변경된 데이터를 반영한 템플릿을 반환합니다.
+- `getSnapshotBeforeUpdate` DOM이 변경되기 직전의 값으로 반환값을 줄 수 있습니다.
+- `componentDidUpdate` 변경된 DOM이 렌더링 된 이후 호출됩니다.
+
+### 언마운트
+
+- `componentWillUnmount` 컴포넌트가 사라지기 직전에 호출됩니다.

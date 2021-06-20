@@ -33,13 +33,42 @@ class Counter extends Component {
 		counter: 0,
 		fixed: 1
 	};
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		counter: 0
-	// 	};
-	// }
 
+	constructor(props) {
+		super(props);
+		console.log('constructor', props);
+		// this.state = {
+		// 	counter: 0
+		// };
+	}
+
+	static getDerivedStateFromProps(next, prev) {
+		console.log('getDerivedStateFromProps', next, prev);
+		return null;
+	}
+
+	componentDidMount() {
+		console.log('componentDidMount', this.props, this.state);
+	}
+
+	shouldComponentUpdate() {
+		console.log('shouldComponentUpdate');
+		return this.state.counter % 3 === 0;
+	}
+
+	getSnapshotBeforeUpdate() {
+		console.log('getSnapshotBeforeUpdate');
+		return null;
+	}
+
+	componentDidUpdate() {
+		console.log('componentDidUpdate');
+	}
+
+	componentWillUnmount() {
+		console.log('componentWillUnmount');
+	}
+	
 	// onClickIncrease = () => {};
 	onClickIncrease() {
 		// 바로 반영되지 않는다. 2가 증가하지 않는다.
@@ -57,6 +86,7 @@ class Counter extends Component {
 			counter: this.state.counter - 1
 		});
 	}
+
 	render() {
 		return (
 			<>
