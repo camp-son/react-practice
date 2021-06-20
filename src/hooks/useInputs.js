@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useState } from "react";
+import { useCallback, useReducer } from "react";
 
 const EVENT_NAME = {
 	ON_CHANGE: 'ON_CHANGE',
@@ -23,12 +23,10 @@ function reducer(state, action) {
 }
 
 function useInputs(initializeForm) {
-	// const [form, setForm] = useState(initializeForm);
 	const [form, dispatch] = useReducer(reducer, initializeForm);
 
 	const onChange = useCallback((e) => {
 		const {name, value} = e.target;
-		// setForm(((form) => ({...form, [name]: value})));
 		dispatch({
 			event: EVENT_NAME.ON_CHANGE,
 			name, 
