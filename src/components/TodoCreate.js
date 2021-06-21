@@ -1,6 +1,11 @@
 import {useState} from 'react';
 import styled, {css} from 'styled-components';
 import {MdAdd} from 'react-icons/md';
+import {
+    TODO_EVENT_NAME,
+    useTodoDispatch,
+    useTodoNextId,
+} from '../context/TodoProvider';
 
 const CircleButton = styled.button`
     background: #38d9a9;
@@ -75,17 +80,41 @@ const Input = styled.input`
 
 const TodoCreate = () => {
     const [open, setOpen] = useState(false);
+    const [todo, setTodo] = useState('');
+
+    const dispatch = useTodoDispatch();
+    const nextId = useTodoNextId();
 
     const onToggle = () => setOpen(!open);
+    const onChange = (e) => {
+        setTodo(e.target.value);
+    };
+    const onCreate = (e) => {
+        e.preventDefault();
+        dispatch({
+            type: TODO_EVENT_NAME.ON_CREATE,
+            todo: {
+                id: nextId.current,
+                text: todo,
+                done: false,
+            },
+        });
+
+        setTodo('');
+        setOpen(false);
+        nextId.current++;
+    };
 
     return (
         <>
             {open && (
                 <InsertFormPositioner>
-                    <InsertForm>
+                    <InsertForm onSubmit={onCreate}>
                         <Input
                             autoFocus
                             placeholder="할 일을 입력 후, Enter를 누르세요"
+                            value={todo}
+                            onChange={onChange}
                         />
                     </InsertForm>
                 </InsertFormPositioner>
