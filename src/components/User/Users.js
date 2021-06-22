@@ -1,38 +1,62 @@
 import axios from 'axios';
-import {useEffect, useState} from 'react';
+import {useEffect, useReducer} from 'react';
+
+const userReducer = (state, action) => {
+    switch (action.type) {
+        case 'LOADING':
+            return {
+                loading: true,
+                users: null,
+                error: null,
+            };
+        case 'SUCCESS':
+            return {
+                loading: false,
+                users: action.users,
+                error: null,
+            };
+        case 'ERROR':
+            return {
+                loading: false,
+                users: null,
+                error: action.error,
+            };
+        default:
+            throw new Error(`Not support action type :: ${action.type}`);
+    }
+};
 
 const Users = () => {
-    const [users, setUsers] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [err, setError] = useState(null);
+    const [state, dispatch] = useReducer(userReducer, {
+        loading: false,
+        users: null,
+        error: null,
+    });
 
     const fetchUsers = async () => {
+        dispatch({type: 'LOADING'});
         try {
-            setError(null);
-            setUsers(null);
-            setLoading(true);
-
             const response = await axios.get(
                 'https://jsonplaceholder.typicode.com/users'
             );
 
-            setUsers(response.data);
+            dispatch({type: 'SUCCESS', users: response.data});
         } catch (error) {
-            setError(error);
+            dispatch({type: 'ERROR', error});
         }
-
-        setLoading(false);
     };
 
     useEffect(() => {
         fetchUsers();
     }, []);
 
+    const {loading, users, error} = state;
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    if (err) {
+    if (error) {
         return <div>에러 발생했습니다 !!</div>;
     }
 
