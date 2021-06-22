@@ -1,56 +1,19 @@
 import axios from 'axios';
-import {useEffect, useReducer} from 'react';
+import {useState} from 'react';
+import useAsync from '../../hooks/useAsync';
+import User from './User';
 
-const userReducer = (state, action) => {
-    switch (action.type) {
-        case 'LOADING':
-            return {
-                loading: true,
-                users: null,
-                error: null,
-            };
-        case 'SUCCESS':
-            return {
-                loading: false,
-                users: action.users,
-                error: null,
-            };
-        case 'ERROR':
-            return {
-                loading: false,
-                users: null,
-                error: action.error,
-            };
-        default:
-            throw new Error(`Not support action type :: ${action.type}`);
-    }
+const getUsers = async () => {
+    const response = await axios.get(
+        'https://jsonplaceholder.typicode.com/users'
+    );
+    return response.data;
 };
 
 const Users = () => {
-    const [state, dispatch] = useReducer(userReducer, {
-        loading: false,
-        users: null,
-        error: null,
-    });
-
-    const fetchUsers = async () => {
-        dispatch({type: 'LOADING'});
-        try {
-            const response = await axios.get(
-                'https://jsonplaceholder.typicode.com/users'
-            );
-
-            dispatch({type: 'SUCCESS', users: response.data});
-        } catch (error) {
-            dispatch({type: 'ERROR', error});
-        }
-    };
-
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const {loading, users, error} = state;
+    const [userId, setUserId] = useState(null);
+    const [state, fetchData] = useAsync(getUsers, [], true);
+    const {loading, data: users, error} = state;
 
     if (loading) {
         return <div>Loading...</div>;
@@ -61,19 +24,24 @@ const Users = () => {
     }
 
     if (!users) {
-        return null;
+        return <button onClick={fetchData}>Search</button>;
     }
 
     return (
         <>
             <ul>
                 {users.map((user) => (
-                    <li key={user.id}>
+                    <li
+                        key={user.id}
+                        style={{cursor: 'pointer'}}
+                        onClick={() => setUserId(user.id)}
+                    >
                         {user.username} ({user.name})
                     </li>
                 ))}
             </ul>
-            <button onClick={fetchUsers}>Search</button>
+            <button onClick={fetchData}>Search</button>
+            {userId && <User id={userId} />}
         </>
     );
 };
