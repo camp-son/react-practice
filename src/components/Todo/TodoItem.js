@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import {MdDone, MdDelete} from 'react-icons/md';
-import {TODO_EVENT_NAME, useTodoDispatch} from '../context/TodoProvider';
+import {TODO_EVENT_NAME, useTodoDispatch} from '../../context/TodoProvider';
 
 const Remove = styled.div`
     display: flex;
