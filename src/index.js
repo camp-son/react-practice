@@ -7,6 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import App from './errors/App';
 // import * as Sentry from '@sentry/browser';
+import './redux-exercise';
 
 // ReactDOM.render(
 //   	<React.StrictMode>
