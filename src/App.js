@@ -1,13 +1,8 @@
 import './App.scss';
-import Users from './components/User/Users';
-import {UsersProvider} from './context/UsersContext';
+import CounterContainer from './containers/CounterContainer';
 
 function App() {
-    return (
-        <UsersProvider>
-            <Users />
-        </UsersProvider>
-    );
+    return <CounterContainer />;
 }
 
 export default App;

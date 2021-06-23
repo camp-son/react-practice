@@ -6,8 +6,8 @@ const DECREASE = `${prefix}DECREASE`;
 
 // 액션 = 함수 만들기
 export const setDiff = (diff) => ({type: SET_DIFF, diff});
-export const increase = {type: INCREASE};
-export const decrease = {type: DECREASE};
+export const increase = () => ({type: INCREASE});
+export const decrease = () => ({type: DECREASE});
 
 // 초기 상태 선언
 const initialState = {
