@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import {createStore} from 'redux';
 import rootReducer from './modules';
 import {Provider} from 'react-redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 // import App from './errors/App';
 // import * as Sentry from '@sentry/browser';
 // import './redux-exercise';
@@ -52,7 +53,7 @@ import {Provider} from 'react-redux';
 // 	dsn: 'https://fe4cdd0c5b514e7283a3b718d148e2d1@o873464.ingest.sentry.io/5824894'
 // });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 ReactDOM.render(
     <Provider store={store}>
