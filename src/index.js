@@ -5,9 +5,12 @@ import App from './App';
 // import Wrapper from './components/01.Wrapper';
 // import Counter from './components/02.Counter';
 import reportWebVitals from './reportWebVitals';
+import {createStore} from 'redux';
+import rootReducer from './modules';
+import {Provider} from 'react-redux';
 // import App from './errors/App';
 // import * as Sentry from '@sentry/browser';
-import './redux-exercise';
+// import './redux-exercise';
 
 // ReactDOM.render(
 //   	<React.StrictMode>
@@ -49,10 +52,12 @@ import './redux-exercise';
 // 	dsn: 'https://fe4cdd0c5b514e7283a3b718d148e2d1@o873464.ingest.sentry.io/5824894'
 // });
 
+const store = createStore(rootReducer);
+
 ReactDOM.render(
-    <React.StrictMode>
+    <Provider store={store}>
         <App />
-    </React.StrictMode>,
+    </Provider>,
     document.getElementById('root')
 );
 
