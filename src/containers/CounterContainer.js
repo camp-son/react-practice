@@ -1,4 +1,4 @@
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {/* shallowEqual, */ useDispatch, useSelector} from 'react-redux';
 import Counter from '../components/Counter/Counter';
 import {decrease, increase, setDiff} from '../modules/counter';
 

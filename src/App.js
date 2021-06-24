@@ -1,5 +1,5 @@
 import './App.scss';
-import CounterContainer from './containers/CounterContainer';
+import CounterContainer from './containers/CounterContainer.connect';
 import TodosContainer from './containers/TodosContainer';
 
 function App() {
